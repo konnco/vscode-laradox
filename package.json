@@ -10,16 +10,71 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"*"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "laradox.migration.designer",
+				"title": "Database Designer",
+				"icon": {
+					"light": "assets/command-icons/light/migration-designer.svg",
+					"dark": "assets/command-icons/dark/migration-designer.svg"
+				}
+			},
+			{
+				"command": "laradox.migration.create",
+				"title": "Create New Migration",
+				"icon": {
+					"light": "assets/command-icons/light/migration-add.svg",
+					"dark": "assets/command-icons/dark/migration-add.svg"
+				}
 			}
-		]
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "vscode-laradox",
+					"title": "Laradox",
+					"icon": "assets/activity-bar.svg"
+				}
+			]
+		},
+		"views": {
+			"vscode-laradox": [
+				{
+					"id": "laradox-controller",
+					"name": "Controllers"
+				},
+				{
+					"id": "laradox-model",
+					"name": "Models"
+				},
+				{
+					"id": "laradox-migration",
+					"name": "Migrations"
+				},
+				{
+					"id": "laradox-view",
+					"name": "Views"
+				}
+			]
+		},
+		"menus": {
+			"view/title": [
+				{
+					"command": "laradox.migration.create",
+					"when":"view==laradox-migration",
+					"group": "navigation"
+				},
+				{
+					"command": "laradox.migration.designer",
+					"when":"view==laradox-migration",
+					"group": "navigation"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
