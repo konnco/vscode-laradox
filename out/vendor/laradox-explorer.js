@@ -4,9 +4,10 @@ const vscode = require("vscode");
 const fs = require("fs");
 const path = require("path");
 const vscode_1 = require("vscode");
-class DepMigrationProvider {
-    constructor(workspaceFolder) {
+class LaradoxExplorerDepProvider {
+    constructor(workspaceFolder, path) {
         this.workspaceFolder = workspaceFolder;
+        this.path = path;
         this._onDidChangeTreeData = new vscode.EventEmitter();
         this.onDidChangeTreeData = this._onDidChangeTreeData.event;
         if (this.workspaceFolder != undefined) {
@@ -28,7 +29,7 @@ class DepMigrationProvider {
             return Promise.resolve([]);
         }
         else {
-            const packageJsonPath = path.join(this.workspaceRoot, 'database/migrations/');
+            const packageJsonPath = path.join(this.workspaceRoot, this.path);
             // vscode.window.showInformationMessage(packageJsonPath);
             if (this.pathExists(packageJsonPath)) {
                 return Promise.resolve(this.getDepsInMigrations(packageJsonPath));
@@ -48,19 +49,15 @@ class DepMigrationProvider {
             let migrations = [];
             // const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
             const toDep = (moduleName, version) => {
-                const displayName = moduleName.replace(".php", "").slice(18);
                 const fullPath = path.join(packageJsonPath, moduleName);
                 const fullPathUri = vscode.Uri.file(fullPath);
-                return new Dependency(displayName, version, vscode.TreeItemCollapsibleState.None);
+                return new Dependency(moduleName, version, vscode.TreeItemCollapsibleState.None, {
+                    command: 'laradox.migration.designer',
+                    title: '',
+                    arguments: [fullPathUri],
+                });
             };
             migrations = migrationFiles.map(dep => toDep(dep, ""));
-            // const deps = packageJson.dependencies
-            // 	? Object.keys(packageJson.dependencies).map(dep => toDep(dep, packageJson.dependencies[dep]))
-            // 	: [];
-            // const devDeps = packageJson.devDependencies
-            // 	? Object.keys(packageJson.devDependencies).map(dep => toDep(dep, packageJson.devDependencies[dep]))
-            // 	: [];
-            // return deps.concat(devDeps);
             return migrations;
         }
         else {
@@ -77,7 +74,7 @@ class DepMigrationProvider {
         return true;
     }
 }
-exports.DepMigrationProvider = DepMigrationProvider;
+exports.LaradoxExplorerDepProvider = LaradoxExplorerDepProvider;
 class Dependency extends vscode_1.TreeItem {
     constructor(label, desc, collapsibleState, command) {
         super(label, collapsibleState);
@@ -99,4 +96,4 @@ class Dependency extends vscode_1.TreeItem {
     }
 }
 exports.Dependency = Dependency;
-//# sourceMappingURL=dependencies.js.map
+//# sourceMappingURL=laradox-explorer.js.map

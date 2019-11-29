@@ -7,6 +7,11 @@ import { activateMigration } from './core/migration/bootstrap';
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 	activateMigration(context);
+	let disposable = vscode.commands.registerCommand('laradox.openfile', (fullPathUri) => {
+        vscode.window.showTextDocument(fullPathUri);
+    });
+    context.subscriptions.push(disposable);
+
 }
 
 // this method is called when your extension is deactivated

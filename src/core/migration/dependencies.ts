@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { WorkspaceFolder } from 'vscode';
+import { WorkspaceFolder, TreeDataProvider, TreeItem } from 'vscode';
 
-export class DepMigrationProvider implements vscode.TreeDataProvider<Dependency> {
+export class DepMigrationProvider implements TreeDataProvider<Dependency> {
 
 	private _onDidChangeTreeData: vscode.EventEmitter<Dependency | undefined> = new vscode.EventEmitter<Dependency | undefined>();
 	readonly onDidChangeTreeData: vscode.Event<Dependency | undefined> = this._onDidChangeTreeData.event;
@@ -93,7 +93,7 @@ export class DepMigrationProvider implements vscode.TreeDataProvider<Dependency>
 	}
 }
 
-export class Dependency extends vscode.TreeItem {
+export class Dependency extends TreeItem {
 
 	constructor(
 		public readonly label: string,

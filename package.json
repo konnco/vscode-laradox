@@ -16,6 +16,10 @@
 	"contributes": {
 		"commands": [
 			{
+				"command": "laradox.openfile",
+				"title": "Open File"
+			},
+			{
 				"command": "laradox.migration.designer",
 				"title": "Database Designer",
 				"icon": {
@@ -27,8 +31,8 @@
 				"command": "laradox.migration.create",
 				"title": "Create New Migration",
 				"icon": {
-					"light": "assets/command-icons/light/migration-add.svg",
-					"dark": "assets/command-icons/dark/migration-add.svg"
+					"light": "assets/command-icons/light/migration-create.svg",
+					"dark": "assets/command-icons/dark/migration-create.svg"
 				}
 			}
 		],
